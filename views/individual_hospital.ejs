@@ -1,0 +1,41 @@
+<% include partials/header1 %>
+
+
+ <br><br><br><br>
+			<div class="col-md-12 jumbotron container">
+						<center><h1 class="card-title"><%=hospital.name%></h1></center>
+			
+					<img style="width: 100%" src="<%=hospital.image%>">
+					<div class="caption ">
+						<div class="col-md-6">
+							<strong>ADDRESS: </strong><h5 class="card-title"><%=hospital.address%></h5>
+							<strong>CONTACT NO: </strong><h5 class="card-title"><%=hospital.contact%></h5>
+						        <% if(currentUser){ %>
+									<form method="GET" action="/hospitals/edit/<%= hospital._id %>">
+										<button class="btn btn-primary">Edit</button>
+									</form>
+          						<%  } %>
+
+						</div>
+						<div class="col-md-6">
+							<strong>CITY: </strong><h5 class="card-title"><%=hospital.city%></h5>
+							<strong>EMAIL: </strong><h5 class="card-title"><%=hospital.email%></h5>
+						        <% if(currentUser){ %>
+									<form method="POST" action="/hospitals/<%=hospital._id%>?_method=DELETE">
+										<button class="btn btn-danger">Delete</button>
+									</form>
+          						<%  } %>
+
+						</div>						
+					</div>
+			</div>
+<br>
+
+
+
+
+
+
+<% include partials/footer1 %>
+
+

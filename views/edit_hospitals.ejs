@@ -1,0 +1,37 @@
+
+
+<% include partials/header1 %>
+<link rel="stylesheet" type="text/css" href="/css/form.css">
+<!-- The Modal (contains the Sign Up form) -->
+<div id="new_hospital" class=" jumbotron container">
+  <form action="/hospitals/<%=hospital._id%>?_method=PUT" method="POST" class="form-inline">
+    <div class="container form-group">
+      <h1>Add new Hospital</h1>
+      <p>Please fill in this form to create an new entry of hospital.</p>
+      <hr>
+      <label for="name"><b>NAME OF HOSPITAL</b></label><br>
+      <input type="text" value="<%=hospital.name%>" class="form-control" placeholder="Enter Name" name="hospital[name]" required><br>
+
+      <label for="image"><b>IMAGE</b></label><br>
+      <textarea type="text" value="<%=hospital.image%>"  class="form-control" placeholder="Enter Image URL" name="hospital[image]"  required><%=hospital.image%></textarea><br> 
+
+      <label for="addresss"><b>ADDRESS</b></label><br>
+      <textarea type="text" value="<%=hospital.address%>"  class="form-control" placeholder="Enter Address"name="hospital[address]" required><%=hospital.address%></textarea><br> 
+
+      <label for="city"><b>CITY</b></label><br>
+      <input type="text" value="<%=hospital.city%>"  class="form-control" placeholder="Enter City"  name="hospital[city]" required><br>
+
+      <label for="email"><b>EMAIL</b></label><br>
+      <input type="email" value="<%=hospital.email%>"  class="form-control" placeholder="Enter email" name="hospital[email]" required><br>
+
+      <label for="contact"><b>CONTACT NO</b></label><br>
+      <input type="tel" value="<%=hospital.contact%>"  class="form-control" placeholder="Enter Contact No" name="hospital[contact]" required><br><br>
+
+
+      <div>
+        <button type="submit" class="btn btn-default">ADD</button><br>
+      </div>
+    </div>
+  </form>
+</div>
+<% include partials/footer1 %>

@@ -1,0 +1,37 @@
+
+
+<% include partials/header1 %>
+<link rel="stylesheet" type="text/css" href="/css/form.css">
+<!-- The Modal (contains the Sign Up form) -->
+<div id="new_medical" class=" jumbotron container">
+  <form action="/medicals/<%=medical._id%>?_method=PUT" method="POST" class="form-inline">
+    <div class="container form-group">
+      <h1>Add new Medical</h1>
+      <p>Please fill in this form to create an new entry of medical.</p>
+      <hr>
+      <label for="name"><b>NAME OF MEDICAL</b></label><br>
+      <input type="text" value="<%=medical.name%>" class="form-control" placeholder="Enter Name" name="medical[name]" required><br>
+
+      <label for="image"><b>IMAGE</b></label><br>
+      <textarea type="text" value="<%=medical.image%>"  class="form-control" placeholder="Enter Image URL" name="medical[image]"  required><%=medical.image%></textarea><br> 
+
+      <label for="addresss"><b>ADDRESS</b></label><br>
+      <textarea type="text" value="<%=medical.address%>"  class="form-control" placeholder="Enter Address"name="medical[address]" required><%=medical.address%></textarea><br> 
+
+      <label for="city"><b>CITY</b></label><br>
+      <input type="text" value="<%=medical.city%>"  class="form-control" placeholder="Enter City"  name="medical[city]" required><br>
+
+      <label for="email"><b>EMAIL</b></label><br>
+      <input type="email" value="<%=medical.email%>"  class="form-control" placeholder="Enter email" name="medical[email]" required><br>
+
+      <label for="contact"><b>CONTACT NO</b></label><br>
+      <input type="tel" value="<%=medical.contact%>"  class="form-control" placeholder="Enter Contact No" name="medical[contact]" required><br><br>
+
+
+      <div>
+        <button type="submit" class="btn btn-default">ADD</button><br>
+      </div>
+    </div>
+  </form>
+</div>
+<% include partials/footer1 %>
