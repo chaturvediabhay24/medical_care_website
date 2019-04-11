@@ -18,7 +18,29 @@ router.get("/",function(req,res){
 	res.render("home");
 });
 
+router.get("/contact", function(req,res){
+	res.render("contactus");
+});
+
+router.get("/aboutus", function(req,res){
+	res.render("aboutus");
+});
+
 router.post("/", function(req,res){
+	var name=req.body.name;
+	var contact=req.body.contact;
+	var comment=req.body.comment;
+	var newContactus={name:name, contact:contact,comment:comment};
+	Contactus.create(newContactus, function(err, newlyCreated){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("comment aaya");
+			res.redirect("/#contact");
+		}
+	})
+});
+router.post("/contact", function(req,res){
 	var name=req.body.name;
 	var contact=req.body.contact;
 	var comment=req.body.comment;

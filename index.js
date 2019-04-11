@@ -9,11 +9,13 @@ var methodOverride=require("method-override");
 var Hospital=require("./models/hospital");
 var Contactus=require("./models/contactus");
 var Medical=require("./models/medical");
+var Accomodation=require("./models/accomodation");
 
 var hospitalRoutes= require("./routes/hospital");
 var medicalRoutes=require("./routes/medical");
 var indexRoutes=require("./routes/index");
 var servicesRoutes=require("./routes/services");
+var accomodationRoutes=require("./routes/accomodation");
 mongoose.connect("mongodb://localhost/Rapidowell1", { useNewUrlParser: true });
 
 mongoose.set('useFindAndModify', false);
@@ -57,6 +59,7 @@ function isLoggedIn(req, res, next){
 
 app.use(indexRoutes);
 app.use("/hospitals", hospitalRoutes);
+app.use("/accomodations", accomodationRoutes);
 app.use("/services", servicesRoutes);
 app.use("/medicals", medicalRoutes);
 

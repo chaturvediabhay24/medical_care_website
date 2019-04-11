@@ -58,7 +58,7 @@ router.get("/:id",function(req,res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("individual_hospital",{hospital:foundHospital});
+			res.render("individual_hospital",{hospital: foundHospital});
 		}
 	});
 });
@@ -67,7 +67,7 @@ router.get("/:id",function(req,res){
 
 //update
 
-router.get("/edit/:id", function(req,res){
+router.get("/edit/:id", isLoggedIn ,function(req,res){
 	Hospital.findById(req.params.id, function(err,foundHospital){
 		if(err){
 			res.redirect("/hospitals");
@@ -101,5 +101,10 @@ router.delete("/:id", function(req,res){
 //=====================
 
 
-
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
 module.exports=router;
