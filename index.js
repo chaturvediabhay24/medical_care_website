@@ -63,7 +63,7 @@ app.use("/accomodations", accomodationRoutes);
 app.use("/services", servicesRoutes);
 app.use("/medicals", medicalRoutes);
 
-app.listen(8000, '127.0.0.1', function(){
+app.listen(80, '127.0.0.1', function(){
 	console.log("server started......!!!!");
 });
 
