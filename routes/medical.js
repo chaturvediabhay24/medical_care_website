@@ -25,6 +25,18 @@ router.get("/",function(req,res){
 	});
 });
 
+router.post("/search", function(req,res){
+	var pin=req.body.pin;
+	console.log(pin);
+	// res.redirect("/services");
+	Medical.find({pin:pin}, function(err,foundMedical){
+		if(err){
+			res.redirect("/");
+		}else{
+			res.render("medicals", {medicals:foundMedical});
+		}
+	});
+});
 
 router.get("/new", middleware.isLoggedIn, function(req,res){
 	res.render("new_medical");                                       
@@ -40,8 +52,9 @@ router.post("/", function(req,res){
 	var address=req.body.address;
 	var city=req.body.city;
 	var contact=req.body.contact;
+	var pin=req.body.pin;
 	var email=req.body.email;
-	var newMedical={name:name, image:image, author:author, address:address, city:city, contact:contact, email:email};
+	var newMedical={name:name, image:image, pin:pin, author:author, address:address, city:city, contact:contact, email:email};
 	console.log(newMedical.author);
 	Medical.create(newMedical, function(err, newlyCreated){
 			if(err){

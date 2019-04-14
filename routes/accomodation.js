@@ -29,7 +29,18 @@ router.get("/",function(req,res){
 router.get("/new", middleware.isLoggedIn, function(req,res){
 	res.render("new_accomodation");
 });
-
+router.post("/search", function(req,res){
+	var pin=req.body.pin;
+	console.log(pin);
+	// res.redirect("/services");
+	Accomodation.find({pin:pin}, function(err,foundAccomodation){
+		if(err){
+			res.redirect("/");
+		}else{
+			res.render("accomodations", {accomodations:foundAccomodation});
+		}
+	});
+});
 router.post("/", function(req,res){
 	var name=req.body.name;
 	var image=req.body.image;
@@ -39,9 +50,10 @@ router.post("/", function(req,res){
 	};
 	var address=req.body.address;
 	var city=req.body.city;
+	var pin=req.body.pin;
 	var contact=req.body.contact;
 	var email=req.body.email;
-	var newAccomodation={name:name, image:image, author:author, address:address, city:city, contact:contact, email:email};
+	var newAccomodation={name:name, image:image, pin:pin, author:author, address:address, city:city, contact:contact, email:email};
 	console.log(newAccomodation.author);
 	Accomodation.create(newAccomodation, function(err, newlyCreated){
 			if(err){
@@ -83,6 +95,41 @@ router.put("/:id",  function(req,res){
 			res.redirect("/accomodations");
 		}else{
 			res.redirect("/accomodations/"+req.params.id);
+		}
+	});
+});
+router.get("/edit/book/:id", isLoggedIn, function(req,res){
+	Accomodation.findById(req.params.id, function(err,foundAccomodation){
+		if(err){
+			res.redirect("/hospitals");
+		}else{
+			var msg='';
+			var nodemailer = require('nodemailer');
+
+			var transport = nodemailer.createTransport({
+			service:'gmail',
+			 auth: {
+			             user: "chaturvediabhay24@gmail.com",
+			             pass: ""
+			        }
+			    });
+			var mailOptions = {
+			        from: "chaturvediabhay24@gmail.com", 
+			        to:'prajwal714singh@gmail.com', 
+			        subject: "Appointment request", 
+			        text: "Hello, A patient tried booking an hotel. His details are as follows: ",  
+			    }
+			transport.sendMail(mailOptions, function(error, response){
+			    if(error){
+			         msg=res.send("Email could not sent due to error: "+error);
+			         console.log('Error');
+			    }else{
+			         msg= res.send("Email has been sent successfully");
+			         console.log('mail sent');
+			    } 
+			}); 
+
+			res.send("Mail Send");
 		}
 	});
 });

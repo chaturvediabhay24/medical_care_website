@@ -5,6 +5,7 @@ var medicalSchema = new mongoose.Schema({
 	address:String,
 	city:String,
 	contact:Number,
+	pin:String,
 	email:String,
 	author:{
 		id:{

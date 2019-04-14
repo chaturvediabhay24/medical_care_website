@@ -26,7 +26,7 @@ router.get("/",function(req,res){
 });
 
 
-router.get("/new", middleware.isLoggedIn, function(req,res){
+router.get("/new", middleware.isLoggedIn, IsAdmin, function(req,res){
 	res.render("new_hospital");
 });
 
@@ -37,11 +37,12 @@ router.post("/", function(req,res){
 		id:req.user._id,
 		username:req.user.username
 	};
+	var pin=req.body.pin;
 	var address=req.body.address;
 	var city=req.body.city;
 	var contact=req.body.contact;
 	var email=req.body.email;
-	var newHospital={name:name, image:image, author:author, address:address, city:city, contact:contact, email:email};
+	var newHospital={name:name, image:image, pin:pin, author:author, address:address, city:city, contact:contact, email:email};
 	console.log(newHospital.author);
 	Hospital.create(newHospital, function(err, newlyCreated){
 			if(err){
@@ -63,16 +64,60 @@ router.get("/:id",function(req,res){
 	});
 });
 
-//edit
 
-//update
-
-router.get("/edit/:id", isLoggedIn ,function(req,res){
+router.post("/search", function(req,res){
+	var pin=req.body.pin;
+	console.log(pin);
+	// res.redirect("/services");
+	Hospital.find({pin:pin}, function(err,foundHospital){
+		if(err){
+			res.redirect("/");
+		}else{
+			res.render("hospitals", {hospitals:foundHospital});
+		}
+	});
+});
+router.get("/edit/:id", isLoggedIn, IsAdmin, function(req,res){
 	Hospital.findById(req.params.id, function(err,foundHospital){
 		if(err){
 			res.redirect("/hospitals");
 		}else{
 			res.render("edit_hospitals", {hospital:foundHospital});
+		}
+	});
+});
+router.get("/edit/book/:id", isLoggedIn, function(req,res){
+	Hospital.findById(req.params.id, function(err,foundHospital){
+		if(err){
+			res.redirect("/hospitals");
+		}else{
+			var msg='';
+			var nodemailer = require('nodemailer');
+
+			var transport = nodemailer.createTransport({
+			service:'gmail',
+			 auth: {
+			             user: "chaturvediabhay24@gmail.com",
+			             pass: "jsgnomnamahshivay"
+			        }
+			    });
+			var mailOptions = {
+			        from: "chaturvediabhay24@gmail.com", 
+			        to:'prajwal714singh@gmail.com', 
+			        subject: "Appointment request", 
+			        text: "Hello, A patient tried booking an Appointment. His details are as follows: ",  
+			    }
+			transport.sendMail(mailOptions, function(error, response){
+			    if(error){
+			         msg=res.send("Email could not sent due to error: "+error);
+			         console.log('Error');
+			    }else{
+			         msg= res.send("Email has been sent successfully");
+			         console.log('mail sent');
+			    } 
+			}); 
+
+			// res.send("Mail Send");
 		}
 	});
 });
@@ -87,7 +132,7 @@ router.put("/:id",  function(req,res){
 	});
 });
 //delete hospital
-router.delete("/:id", function(req,res){
+router.delete("/:id", isLoggedIn, IsAdmin, function(req,res){
 	Hospital.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			res.redirect("/");
@@ -106,5 +151,11 @@ function isLoggedIn(req, res, next){
 		return next();
 	}
 	res.redirect("/login");
+}
+function IsAdmin(req, res, next){
+	if(req.user.isAdmin){
+		return next();
+	}
+	res.redirect("/myprofile");
 }
 module.exports=router;

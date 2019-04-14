@@ -6,6 +6,7 @@ var hospitalSchema = new mongoose.Schema({
 	city:String,
 	contact:Number,
 	email:String,
+	pin: String,
 	author:{
 		id:{
 			type:mongoose.Schema.Types.ObjectId,

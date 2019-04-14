@@ -8,8 +8,8 @@ router.get("/",function(req,res){
 	res.render("services");
 });
 
-router.get("/facilities",function(req,res){
-	res.render("facilities");
+router.get("/pre_natal_test",function(req,res){
+	res.render("pre_natal_test");
 });
 
 router.get("/total_health_checkup",function(req,res){
